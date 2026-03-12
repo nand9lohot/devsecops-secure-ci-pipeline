@@ -1,0 +1,6 @@
+rules:
+- id: command-injection
+  pattern: subprocess.getoutput(...)
+  message: Possible command injection
+  languages: [python]
+  severity: ERROR
