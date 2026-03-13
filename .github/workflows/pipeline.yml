@@ -67,6 +67,7 @@ jobs:
         wget -q https://github.com/gitleaks/gitleaks/releases/download/${VERSION}/gitleaks_${VERSION#v}_linux_x64.tar.gz
         tar -xzf gitleaks_${VERSION#v}_linux_x64.tar.gz
         sudo mv gitleaks /usr/local/bin/
+      continue-on-error: true
 
     ####################################################
     # Install OWASP Dependency Check
@@ -80,6 +81,7 @@ jobs:
         unzip dependency-check-${DC_VERSION}-release.zip
         sudo mv dependency-check /opt/
         sudo ln -s /opt/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check
+      continue-on-error: true
 
     ####################################################
     # Verify all tools are available
