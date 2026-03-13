@@ -131,8 +131,7 @@ jobs:
         dependency-check \
           --scan app \
           --format HTML \
-          --out reports \
-          --noupdate
+          --out reports
 
     ####################################################
     # Build Image
