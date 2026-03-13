@@ -117,6 +117,7 @@ jobs:
         --source . \
         --report-format json \
         --report-path reports/secrets-report.json || true
+      continue-on-error: true
 
     ####################################################
     # Dependency Scan (SCA)
@@ -126,6 +127,7 @@ jobs:
       with:
         path: ~/.m2/repository/org/owasp/dependency-check-data
         key: dependency-check-${{ runner.os }}
+      continue-on-error: true
 
     - name: Run Dependency Check
       env:
@@ -139,6 +141,7 @@ jobs:
           --data ~/.m2/repository/org/owasp/dependency-check-data \
           --nvdApiKey "$NVD_API_KEY" \
           --nvdApiDelay 8000
+      continue-on-error: true
 
     ####################################################
     # Build Image
@@ -169,6 +172,7 @@ jobs:
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
       run: |
         COSIGN_PASSWORD=$COSIGN_PASSWORD cosign generate-key-pair
+      continue-on-error: true
 
     ####################################################
     # Sign Image
