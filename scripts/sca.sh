@@ -3,4 +3,5 @@ echo "Running Dependency Scan"
 dependency-check \
 --scan app \
 --format HTML \
---out reports
+--out reports \
+--nvdApiKey $NVD_API_KEY
