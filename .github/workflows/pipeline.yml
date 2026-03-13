@@ -73,12 +73,13 @@ jobs:
     ####################################################
     - name: Install OWASP Dependency Check
       run: |
-        DC_VERSION=$(curl -s https://api.github.com/repos/jeremylong/DependencyCheck/releases/latest | jq -r .tag_name)
-        wget https://github.com/jeremylong/DependencyCheck/releases/download/${DC_VERSION}/dependency-check-${DC_VERSION}-release.zip
+        sudo apt-get update
+        sudo apt-get install -y openjdk-17-jre unzip wget curl
+        DC_VERSION="9.0.9"
+        wget https://github.com/jeremylong/DependencyCheck/releases/download/v${DC_VERSION}/dependency-check-${DC_VERSION}-release.zip
         unzip dependency-check-${DC_VERSION}-release.zip
         sudo mv dependency-check /opt/
         sudo ln -s /opt/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check
-        dependency-check --version
 
     ####################################################
     # Verify all tools are available
@@ -125,12 +126,16 @@ jobs:
         key: dependency-check-${{ runner.os }}
 
     - name: Run Dependency Check
+      env:
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       run: |
+        echo "Running Dependency Scan"
+        mkdir -p reports
         dependency-check \
-        --scan . \
-        --format JSON \
-        --out reports \
-        --nvdApiKey ${{ secrets.NVD_API_KEY }}
+          --scan app \
+          --format HTML \
+          --out reports \
+          --nvdApiKey $NVD_API_KEY
 
     ####################################################
     # Build Image
