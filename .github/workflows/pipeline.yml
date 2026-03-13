@@ -126,16 +126,13 @@ jobs:
         key: dependency-check-${{ runner.os }}
 
     - name: Run Dependency Check
-      env:
-        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       run: |
         echo "Running Dependency Scan"
-        mkdir -p reports
         dependency-check \
           --scan app \
           --format HTML \
           --out reports \
-          --nvdApiKey $NVD_API_KEY
+          --noupdate
 
     ####################################################
     # Build Image
