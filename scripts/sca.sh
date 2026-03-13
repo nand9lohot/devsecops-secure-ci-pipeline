@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Running Dependency Scan"
-dependency-check.sh \
+dependency-check \
 --scan app \
 --format HTML \
 --out reports
