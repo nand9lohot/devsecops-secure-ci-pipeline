@@ -62,10 +62,11 @@ jobs:
     ####################################################
     - name: Install Gitleaks
       run: |
-        wget -q https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64.tar.gz
-        tar -xzf gitleaks-linux-amd64.tar.gz
+        set -e
+        VERSION=$(curl -s https://api.github.com/repos/gitleaks/gitleaks/releases/latest | jq -r .tag_name)
+        wget -q https://github.com/gitleaks/gitleaks/releases/download/${VERSION}/gitleaks_${VERSION#v}_linux_x64.tar.gz
+        tar -xzf gitleaks_${VERSION#v}_linux_x64.tar.gz
         sudo mv gitleaks /usr/local/bin/
-        gitleaks version
 
     ####################################################
     # Install OWASP Dependency Check
