@@ -121,10 +121,10 @@ jobs:
     ####################################################
     # Dependency Scan (SCA)
     ####################################################
-    - name: Cache Dependency Check DB
+    - name: Cache DependencyCheck DB
       uses: actions/cache@v4
       with:
-        path: ~/.dependency-check
+        path: ~/.m2/repository/org/owasp/dependency-check-data
         key: dependency-check-${{ runner.os }}
 
     - name: Run Dependency Check
@@ -136,7 +136,9 @@ jobs:
           --scan app \
           --format HTML \
           --out reports \
-          --nvdApiKey "$NVD_API_KEY"
+          --data ~/.m2/repository/org/owasp/dependency-check-data \
+          --nvdApiKey "$NVD_API_KEY" \
+          --nvdApiDelay 8000
 
     ####################################################
     # Build Image
